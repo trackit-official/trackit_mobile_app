@@ -64,12 +64,12 @@ export default function RootLayout() {
     <>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen 
-          name="onboarding" 
-          options={{ 
+        <Stack.Screen
+          name="(onboarding)"
+          options={{
             headerShown: false,
-            presentation: 'fullScreenModal',
-          }} 
+            presentation: "modal",
+          }}
         />
         <Stack.Screen name="+not-found" />
       </Stack>

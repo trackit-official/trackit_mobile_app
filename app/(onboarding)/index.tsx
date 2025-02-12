@@ -8,23 +8,25 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 
+import images from "../../constants/images";
+
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 const data = [
   {
     id: 1,
     title: "Helping you keep your financial promise to yourself",
-    image: require("../../../assets/images/onboarding-1.png"),
+    image: images.onboardingImage1,
   },
   {
     id: 2,
     title: "Set Goals, Automate Deposits, Master Your Spending",
-    image: require("../../../assets/images/onboarding-2.png"),
+    image: images.onboardingImage1,
   },
   {
     id: 3,
     title: "Track Every Naira Across All Your Accounts",
-    image: require("../../../assets/images/onboarding-3.png"),
+    image: images.onboardingImage1,
   },
 ];
 
@@ -53,15 +55,11 @@ const OnboardingScreen = () => {
       <View className={`w-[${SCREEN_WIDTH}px] h-full bg-white`}>
         <View className="items-center px-6 mt-12">
           <Image
-            source={require("../../../assets/images/Vector2.png")}
-            className="w-24 h-8 mb-8"
+            source={images.Vector2}
+            className="w-15 h-8 mb-8"
             resizeMode="contain"
           />
-          <Image
-            source={item.image}
-            className="w-64 h-64 mb-8"
-            resizeMode="contain"
-          />
+          <Image source={item.image} className=" mb-8" resizeMode="contain" />
           <Text className="text-2xl font-psemibold text-center text-black mb-4">
             {item.title}
           </Text>
