@@ -7,8 +7,10 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-native-reanimated";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 
@@ -33,23 +35,45 @@ export default function RootLayout() {
     PlusJakartaSansSemiBoldItalic: require("../assets/fonts/PlusJakartaSans-SemiBoldItalic.ttf"),
   });
 
+  const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);
+  const router = useRouter();
+
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
 
+  useEffect(() => {
+    AsyncStorage.getItem("hasLaunched").then((value) => {
+      if (value === null) {
+        AsyncStorage.setItem("hasLaunched", "true");
+        setIsFirstLaunch(true);
+        router.push("/onboarding");
+      } else {
+        setIsFirstLaunch(false);
+      }
+    });
+  }, []);
+
   if (!loaded) {
     return null;
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DefaultTheme : DarkTheme}>
+    <>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen 
+          name="onboarding" 
+          options={{ 
+            headerShown: false,
+            presentation: 'fullScreenModal',
+          }} 
+        />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />
-    </ThemeProvider>
+    </>
   );
 }
