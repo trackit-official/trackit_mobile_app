@@ -11,6 +11,8 @@ import React, { useState, useEffect } from "react";
 import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
+  useAnimatedStyle,
+  withSpring,
 } from "react-native-reanimated";
 import images from "@/constants/images";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,17 +22,17 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const data = [
   {
     id: 1,
-    title: "Helping you keep your financial promise to yourself",
+    title: "Helping you keep your financial promise to yourself.",
     image: images.onboardingImage1,
   },
   {
     id: 2,
-    title: "Set Goals, Automate Deposits, Master Your Spending",
+    title: "Set Goals, Automate Deposits, Master Your Spending.",
     image: images.onboardingImage2,
   },
   {
     id: 3,
-    title: "Track Every Naira Across All Your Accounts",
+    title: "Track Every Naira Across All Your Accounts.",
     image: images.onboardingImage3,
   },
 ];
@@ -49,10 +51,9 @@ const OnboardingScreen = () => {
   });
 
   return (
-    <SafeAreaView className="flex-1 bg-red-500">
+    <SafeAreaView className="flex-1 ">
       <View className="h-full">
-        <Text className="border-b-black-paleblack font-black">Onboarding</Text>
-        {/* <StatusBar barStyle="dark-content" />
+        <StatusBar barStyle="dark-content" />
 
         <Animated.ScrollView
           horizontal
@@ -62,16 +63,16 @@ const OnboardingScreen = () => {
           scrollEventThrottle={16}
           className="flex-1"
         >
-          {data.map((item) => (
+          {data.map((item: any) => (
             <View
               key={item.id}
               style={{ width: SCREEN_WIDTH }}
               className="bg-white"
             >
-              <View className="mt-12 mb-8 px-6">
+              <View className="mt-10 flex  items-center mb-[90px] px-6">
                 <Image
-                  source={images.Vector2}
-                  className="w-[120px] h-6"
+                  source={images.Vector}
+                  className="w-[130px] h-10"
                   resizeMode="contain"
                 />
               </View>
@@ -79,47 +80,52 @@ const OnboardingScreen = () => {
               <View className="items-center px-6">
                 <Image
                   source={item.image}
-                  className="w-[85vw] h-[70vw] mb-10"
+                  className="w-[85vw] h-[70vw] mb-12"
                   resizeMode="contain"
                 />
-                <Text className="text-[28px] leading-[34px] font-semibold text-center text-gray-900 px-4">
+                <Text className="text-[32px] font-pbold text-center text-gray-900 px-4">
                   {item.title}
                 </Text>
+              </View>
+
+              <View className="flex-row justify-center items-center mt-5 mb-10">
+                {data.map((_, index) => {
+                  const dotStyle = useAnimatedStyle(() => {
+                    const isActive =
+                      Math.round(scrollX.value / SCREEN_WIDTH) === index;
+                    return {
+                      width: withSpring(isActive ? 24 : 8),
+                      height: 8,
+                      borderRadius: 4,
+                      backgroundColor: isActive ? "#4CAF50" : "#E5E7EB",
+                      marginHorizontal: 4,
+                    };
+                  });
+
+                  return <Animated.View key={index} style={dotStyle} />;
+                })}
               </View>
             </View>
           ))}
         </Animated.ScrollView>
 
-        {/* Pagination dots */}
-        {/* <View className="flex-row justify-center space-x-2 mb-12">
-          {data.map((_, index) => (
-            <View
-              key={index}
-              className={`h-2 rounded-full ${
-                Math.round(scrollX.value / SCREEN_WIDTH) === index
-                  ? "w-6 bg-[#4CAF50]"
-                  : "w-2 bg-gray-200"
-              }`}
-            />
-          ))}
-        </View> */}
-
-        {/* Bottom buttons */}
-        {/* <View className="px-6 pb-8 space-y-4">
+        <View className="px-6 pb-8 flex-row justify-between space-y-3">
           <TouchableOpacity
             onPress={() => router.push("/login")}
-            className="w-full h-[52px] border border-[#4CAF50] rounded-lg items-center justify-center"
+            className="w-[48%] h-[52px] border-2 border-primary-700 rounded-lg items-center justify-center"
           >
-            <Text className="text-[#4CAF50] text-base font-medium">Log in</Text>
+            <Text className="text-[#4CAF50] text-base font-pbold">Log in</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => router.push("/signup")}
-            className="w-full h-[52px] bg-[#4CAF50] rounded-lg items-center justify-center"
+            className="w-[48%] h-[52px] bg-[#4CAF50] rounded-lg items-center justify-center"
           >
-            <Text className="text-white text-base font-medium">Sign up</Text>
+            <Text className="text-white-awhite  text-base font-pbold">
+              Sign up
+            </Text>
           </TouchableOpacity>
-        </View>  */}
+        </View>
       </View>
     </SafeAreaView>
   );
