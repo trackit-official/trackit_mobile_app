@@ -45,6 +45,8 @@ export default function RootLayout() {
   }, [loaded]);
 
   useEffect(() => {
+    console.log(loaded);
+    console.log(isFirstLaunch);
     AsyncStorage.getItem("hasLaunched").then((value) => {
       if (value === null) {
         AsyncStorage.setItem("hasLaunched", "true");
@@ -69,6 +71,12 @@ export default function RootLayout() {
           options={{
             headerShown: false,
             presentation: "modal",
+          }}
+        />
+        <Stack.Screen
+          name="(auth)"
+          options={{
+            headerShown: false,
           }}
         />
         <Stack.Screen name="+not-found" />

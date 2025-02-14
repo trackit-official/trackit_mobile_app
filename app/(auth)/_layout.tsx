@@ -1,6 +1,8 @@
 import { View, Text } from "react-native";
 import React from "react";
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
 interface Props {
   name: string;
 }
@@ -11,8 +13,27 @@ const AuthLayout = () => {
         name="login"
         options={{
           headerTitleAlign: "center",
-          title: "Sign In",
+          title: "",
           headerShadowVisible: false,
+          //   headerShown: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => router.back()} // Navigate back using router
+              style={{
+                marginLeft: 10,
+                borderWidth: 1,
+                borderColor: "black",
+                borderRadius: 10,
+                padding: 5,
+              }}
+            >
+              <MaterialCommunityIcons
+                name="arrow-left" // Use the back arrow icon
+                size={20}
+                color="black"
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
       <Stack.Screen
@@ -21,13 +42,7 @@ const AuthLayout = () => {
           headerTitleAlign: "center",
           title: "Sign Up",
           headerShadowVisible: false,
-        }}
-      />
-      <Stack.Screen
-        name="purpose"
-        options={{
           headerShown: false,
-          statusBarHidden: false,
         }}
       />
     </Stack>
