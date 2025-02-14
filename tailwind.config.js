@@ -26,13 +26,12 @@ module.exports = {
           800: "#930c24",
           900: "#7a0725",
         },
-        white: {
-          white: "ffffff",
+        twhite: {
           awhite: "#eeeeee",
           shadedwhite: "#dddddd",
           darkwhite: "#cccccc",
         },
-        gray: {
+        tgray: {
           silver: "bbbbbb",
           palegray: "#aaaaaa",
           lightgray: "#999999",
@@ -42,12 +41,11 @@ module.exports = {
           darkgray: "#555555",
         },
 
-        black: {
+        tblack: {
           paleblack: "#444444",
           lightblack: "#333333",
           tintedblack: "#222222",
           almostblack: "#111111",
-          black: "#000000",
         },
 
         others: {

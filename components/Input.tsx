@@ -15,6 +15,7 @@ const FormField = ({
   handleChangeText,
   otherStyles,
   keyboardType,
+  error,
   ...props
 }: {
   title: string;
@@ -23,14 +24,16 @@ const FormField = ({
   handleChangeText: (text: string) => void;
   otherStyles?: string;
   keyboardType?: KeyboardType;
+  error?: string;
 }) => {
   const [showPassword, setshowPassword] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   return (
     <View className={`space-y-2 ${otherStyles}`}>
-      <Text className="text-base 12 text-black font-pregular mb-2">
+      <Text className="text-base 12 text-black font-pregular mb-3">
         {title}
       </Text>
-      <View className="border-2 border-zinc-400 flex-row w-full h-16 px-4  bg-black-100 rounded-2xl focus:border-zinc-600 items-center">
+      <View className={`border-2 ${error ? 'border-red-500' : isFocused ? 'border-green-500' : 'border-zinc-400'} flex-row w-full h-16 px-4 bg-black-100 rounded-2xl items-center`}>
         <TextInput
           className="flex-1 text-black font-pmedium text-base"
           value={value}
@@ -41,6 +44,8 @@ const FormField = ({
           selectionColor="gray"
           keyboardType={keyboardType}
           secureTextEntry={title === "Password" && !showPassword}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
         {title === "Password" && (
           <TouchableOpacity
@@ -56,6 +61,11 @@ const FormField = ({
           </TouchableOpacity>
         )}
       </View>
+      {error && (
+        <Text className="text-red-500 text-sm font-pregular mt-1">
+          {error}
+        </Text>
+      )}
     </View>
   );
 };

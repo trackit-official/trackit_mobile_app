@@ -121,7 +121,7 @@ const OnboardingScreen = () => {
             onPress={() => router.push("/signup")}
             className="w-[48%] h-[52px] bg-[#4CAF50] rounded-lg items-center justify-center"
           >
-            <Text className="text-white-awhite  text-base font-pbold">
+            <Text className="text-twhite-awhite  text-base font-pbold">
               Sign up
             </Text>
           </TouchableOpacity>
