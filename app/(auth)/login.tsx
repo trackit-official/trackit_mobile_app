@@ -1,9 +1,21 @@
 import CustomButton from "@/components/Button";
 import FormField from "@/components/Input";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView, ScrollView, StatusBar, View, Text } from "react-native";
 
+interface SignInState {
+  email: string;
+  password: string;
+}
+
 const Login = () => {
+  const [userData, setuserData] = useState<SignInState>({
+    fullName: "",
+    phoneNumber: "",
+    email: "",
+    password: "",
+  });
+
   return (
     <SafeAreaView className="flex-1">
       <ScrollView className="h-full flex-col">
