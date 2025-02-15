@@ -135,7 +135,7 @@ const Password = () => {
               isFormValid() ? "text-white" : "text-gray-500"
             }`}
             containerStyles={`w-full ${
-              isFormValid() ? "bg-primary-600" : "bg-gray-200"
+              isFormValid() ? "bg-primary-600" : "bg-primary-100"
             }`}
             disabled={!isFormValid()}
           />

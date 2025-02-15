@@ -1,5 +1,6 @@
 import CustomButton from "@/components/Button";
 import FormField from "@/components/Input";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, StatusBar, View, Text } from "react-native";
 
@@ -10,11 +11,28 @@ interface SignInState {
 
 const Login = () => {
   const [userData, setuserData] = useState<SignInState>({
-    fullName: "",
-    phoneNumber: "",
     email: "",
     password: "",
   });
+
+  const [errors, setErrors] = useState({
+    fullName: "",
+    email: "",
+    phoneNumber: "",
+  });
+
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const isFormValid = () => {
+    return isValidEmail(userData.email) && !errors.email && !errors.phoneNumber;
+  };
+
+  const handleChangeText = (key: keyof SignInState, value: string) => {
+    setuserData({ ...userData, [key]: value });
+    setErrors({ ...errors, [key]: "" });
+  };
 
   return (
     <SafeAreaView className="flex-1">
@@ -29,10 +47,10 @@ const Login = () => {
             doing.
           </Text>
           <FormField
-            title="Full Name"
-            value={userData.fullName}
+            title="Email"
+            value={userData.email}
             placeholder="Enter Full Name"
-            handleChangeText={(value) => handleChangeText("fullName", value)}
+            handleChangeText={(value) => handleChangeText("email", value)}
             otherStyles="mt-5 mb-2"
             keyboardType="default"
             error={errors.fullName}
