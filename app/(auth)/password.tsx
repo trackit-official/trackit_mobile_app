@@ -127,7 +127,7 @@ const Password = () => {
             text="Continue"
             handlePress={() => {
               if (isFormValid()) {
-                router.push("/(auth)/login");
+                router.push("/(auth)/verifymail");
               }
             }}
             isLoading={false}
