@@ -1,82 +1,52 @@
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-} from "react-native";
-import React, { useState, useRef, useEffect } from "react";
+import { SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
+import React, { useState, useRef, useMemo, useCallback } from "react";
 import { router } from "expo-router";
 import CustomButton from "@/components/Button";
 import ConfettiCannon from "react-native-confetti-cannon";
-import * as Clipboard from "expo-clipboard";
+import OTPInput from "@/components/OTPInput";
+
 const VerifyMail = () => {
-  const [pin, setPin] = useState(["", "", "", "", "", ""]);
+  const [pin, setPin] = useState("");
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const confettiRef = useRef<any>(null);
-  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
-  const [pasteMessage, setPasteMessage] = useState("");
-  const inputRefs = useRef<Array<TextInput | null>>([]);
 
-  const handlePinChange = (index: number, value: string) => {
-    if (value.length > 1) {
-      // Handle paste
-      const cleanedText = value.replace(/[^0-9]/g, "").slice(0, 6);
-      setPin(prev => {
-        const newPin = [...prev];
-        cleanedText.split("").forEach((digit, i) => {
-          if (i < 6) newPin[i] = digit;
-        });
-        return newPin;
-      });
-      inputRefs.current[index]?.blur();
-    } else {
-      // Handle single digit
-      setPin(prev => {
-        const newPin = [...prev];
-        newPin[index] = value;
-        return newPin;
-      });
-      
-      if (value && index < 5) {
-        inputRefs.current[index + 1]?.focus();
-      }
-    }
+  const handleComplete = (code: string) => {
+    setPin(code);
     setIsError(false);
   };
 
-  const handleKeyPress = (index: number, key: string) => {
-    if (key === "Backspace") {
-      setPin(prev => {
-        const newPin = [...prev];
-        if (newPin[index] === "" && index > 0) {
-          newPin[index - 1] = "";
-          setTimeout(() => inputRefs.current[index - 1]?.focus(), 0);
-        } else {
-          newPin[index] = "";
-        }
-        return newPin;
-      });
-    }
-  };
-
   const verifyPin = async () => {
-    setIsLoading(true);
-    const enteredPin = pin.join("");
+    try {
+      if (pin.length !== 6) return;
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+      setIsLoading(true);
+      setIsError(false);
 
-    if (enteredPin === "111111") {
-      setIsLoading(false);
-      confettiRef.current?.start();
-      // Wait for confetti to play
-      await new Promise((resolve) => setTimeout(resolve, 2500));
-      router.push("/(auth)/phone");
-    } else {
+      // Simulate API call with proper error handling
+      const response = await fetch("YOUR_API_ENDPOINT", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ pin }),
+      });
+
+      // For demo purposes, still using the hardcoded pin
+      if (pin === "111111") {
+        setIsLoading(false);
+        confettiRef.current?.start();
+
+        // Wait for confetti animation
+        await new Promise((resolve) => setTimeout(resolve, 2500));
+        router.push("/(auth)/phone");
+      } else {
+        throw new Error("Invalid PIN");
+      }
+    } catch (error) {
       setIsError(true);
+      setPin("");
+    } finally {
       setIsLoading(false);
     }
   };
@@ -92,71 +62,18 @@ const VerifyMail = () => {
           <Text className="text-base font-psemibold text-gray-600 mt-2 mb-6">
             A 6 digit OTP was sent to {"\n"}
             <Text className="text-primary-600">jesumuyiwago@gmail.com</Text>.
-            Input the digit here to continue.
+            Input the digit here to continues.
           </Text>
 
-          <View className="flex-row items-center justify-between mb-2">
-            {[0, 1, 2, 3, 4, 5].map((index) => (
-              <React.Fragment key={index}>
-                {index === 0 ? (
-                  <TextInput
-                    ref={(ref) => (inputRefs.current[index] = ref)}
-                    className={`w-14 h-14 border-2 rounded-lg text-center text-2xl font-pbold ${
-                      isError
-                        ? "border-red-500 text-red-500"
-                        : pin[index]
-                        ? "border-primary-600 text-primary-600"
-                        : focusedIndex === index
-                        ? "border-primary-600"
-                        : "border-gray-200 text-gray-900"
-                    }`}
-                    maxLength={1}
-                    keyboardType="number-pad"
-                    value={pin[index]}
-                    onChangeText={(value) => {
-                      handlePinChange(index, value);
-                    }}
-                    onKeyPress={({ nativeEvent: { key } }) =>
-                      handleKeyPress(index, key)
-                    }
-                    onFocus={() => setFocusedIndex(index)}
-                    onBlur={() => setFocusedIndex(null)}
-                  />
-                ) : (
-                  <TextInput
-                    ref={(ref) => (inputRefs.current[index] = ref)}
-                    className={`w-14 h-14 border-2 rounded-lg text-center text-2xl font-pbold ${
-                      isError
-                        ? "border-red-500 text-red-500"
-                        : pin[index]
-                        ? "border-primary-600 text-primary-600"
-                        : focusedIndex === index
-                        ? "border-primary-600"
-                        : "border-gray-200 text-gray-900"
-                    }`}
-                    maxLength={1}
-                    keyboardType="number-pad"
-                    value={pin[index]}
-                    onChangeText={(value) => {
-                      handlePinChange(index, value);
-                    }}
-                    onKeyPress={({ nativeEvent: { key } }) =>
-                      handleKeyPress(index, key)
-                    }
-                    onFocus={() => setFocusedIndex(index)}
-                    onBlur={() => setFocusedIndex(null)}
-                  />
-                )}
-                {index === 2 && (
-                  <Text className="text-2xl font-pbold text-gray-400 mx-2">
-                    -
-                  </Text>
-                )}
-              </React.Fragment>
-            ))}
-          </View>
+          <OTPInput
+            length={6}
+            onComplete={handleComplete}
+            key={isError ? pin : undefined}
+            isError={isError} // Add this prop
+          />
+
           {isError && (
-            <Text className="text-red-500 text-sm font-pmedium mb-6">
+            <Text className="text-red-500 text-sm mt-3 font-pmedium mb-6">
               Invalid verification code. Please try again.
             </Text>
           )}
@@ -168,16 +85,12 @@ const VerifyMail = () => {
             handlePress={verifyPin}
             isLoading={isLoading}
             textStyles={`font-pmedium  ${
-              pin.every((digit) => digit !== "")
-                ? "text-white"
-                : "text-gray-900"
+              pin.length === 6 ? "text-white" : "text-gray-900"
             }`}
             containerStyles={`w-full ${
-              pin.every((digit) => digit !== "")
-                ? "bg-primary-600"
-                : "bg-primary-100"
+              pin.length === 6 ? "bg-primary-600" : "bg-primary-100"
             }`}
-            disabled={!pin.every((digit) => digit !== "")}
+            disabled={pin.length !== 6}
           />
         </View>
 
