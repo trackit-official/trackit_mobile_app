@@ -29,7 +29,7 @@ const VerifyPhone = () => {
 
         // Wait for confetti animation to complete
         await new Promise((resolve) => setTimeout(resolve, 2500));
-        router.push("/(tabs)"); // Changed navigation destination
+        router.push("/(auth)/bvn"); // Changed navigation destination
       } else {
         throw new Error("Invalid PIN");
       }
