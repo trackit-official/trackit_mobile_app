@@ -43,7 +43,7 @@ const Login = () => {
           <View className="mt-[50px]" />
           <Text className="text-3xl font-pbold mb-2">Welcome back</Text>
           <Text className="text-base font-pmedium mt-2 mb-2">
-            Let’s pick up where we stopped. ❤️
+            Lets pick up where we stopped. ❤️
           </Text>
           <FormField
             title="Email address"
@@ -51,7 +51,7 @@ const Login = () => {
             placeholder="Enter Full Name"
             handleChangeText={(value) => handleChangeText("email", value)}
             otherStyles="mt-5 mb-2"
-            keyboardType="default"
+            keyboardType="email-address"
             error={errors.fullName}
           />{" "}
         </View>
@@ -63,7 +63,7 @@ const Login = () => {
           handlePress={() => {
             if (isFormValid()) {
               console.log("loginData", userData);
-              router.push("/(auth)/password");
+              router.push("/(auth)/loginpassword");
             }
           }}
           isLoading={false}
