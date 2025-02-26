@@ -96,7 +96,7 @@ const BVN = () => {
             text="Continue"
             handlePress={() => {
               if (isFormValid()) {
-                router.push("/(auth)/verifymail");
+                router.push("/(auth)/verifyuserinfo");
               }
             }}
             isLoading={false}

@@ -16,6 +16,7 @@ const FormField = ({
   otherStyles,
   keyboardType,
   error,
+  editable = true,
   ...props
 }: {
   title: string;
@@ -25,6 +26,7 @@ const FormField = ({
   otherStyles?: string;
   keyboardType?: KeyboardType;
   error?: string;
+  editable?: boolean;
 }) => {
   const [showPassword, setshowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -33,9 +35,23 @@ const FormField = ({
       <Text className="text-base 12 text-black font-pregular mb-3">
         {title}
       </Text>
-      <View className={`border-2 ${error ? 'border-red-500' : isFocused ? 'border-green-500' : 'border-zinc-400'} flex-row w-full h-16 px-4 bg-black-100 rounded-2xl items-center`}>
+      <View
+        className={`border-2
+          ${
+            error
+              ? "border-red-500"
+              : isFocused
+              ? "border-green-500"
+              : "border-zinc-400"
+          }
+          flex-row w-full h-16 px-4
+          ${editable ? "bg-black-100" : "bg-gray-100"}
+          rounded-2xl items-center`}
+      >
         <TextInput
-          className="flex-1 text-black font-pmedium text-base"
+          className={`flex-1 text-black font-pmedium text-base ${
+            !editable && "opacity-70"
+          }`}
           value={value}
           placeholder={placeholder}
           placeholderTextColor="gray"
@@ -46,8 +62,10 @@ const FormField = ({
           secureTextEntry={title === "Password" && !showPassword}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          editable={editable}
+          {...props}
         />
-        {title === "Password" && (
+        {title === "Password" && editable && (
           <TouchableOpacity
             onPress={() => {
               setshowPassword(!showPassword);
@@ -62,9 +80,7 @@ const FormField = ({
         )}
       </View>
       {error && (
-        <Text className="text-red-500 text-sm font-pregular mt-1">
-          {error}
-        </Text>
+        <Text className="text-red-500 text-sm font-pregular mt-1">{error}</Text>
       )}
     </View>
   );
