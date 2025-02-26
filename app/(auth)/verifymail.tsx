@@ -19,25 +19,15 @@ const VerifyMail = () => {
   const verifyPin = async () => {
     try {
       if (pin.length !== 6) return;
-
       setIsLoading(true);
       setIsError(false);
 
-      // Simulate API call with proper error handling
-      const response = await fetch("YOUR_API_ENDPOINT", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ pin }),
-      });
-
-      // For demo purposes, still using the hardcoded pin
+      // For demo purposes, checking hardcoded pin
       if (pin === "111111") {
         setIsLoading(false);
         confettiRef.current?.start();
 
-        // Wait for confetti animation
+        // Wait for confetti animation to complete
         await new Promise((resolve) => setTimeout(resolve, 2500));
         router.push("/(auth)/phone");
       } else {
@@ -68,7 +58,6 @@ const VerifyMail = () => {
           <OTPInput
             length={6}
             onComplete={handleComplete}
-            key={isError ? pin : undefined}
             isError={isError} // Add this prop
           />
 

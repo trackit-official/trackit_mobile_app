@@ -39,16 +39,19 @@ const OTPInput = ({ length, onComplete, isError }: OTPInputProps) => {
   };
 
   return (
-    <View className="flex flex-row justify-around w-4/5">
+    <View className="flex flex-row justify-between w-4/5">
       {[...Array(length)].map((_, index) => (
         <React.Fragment key={index}>
           <TextInput
             ref={(ref) => {
               if (ref) inputRefs.current[index] = ref;
             }}
-            className={`w-12 h-12 border-2 rounded-lg text-center text-2xl font-bold ${
-              code[index] && !isError ? "border-green-500 text-green-500" : ""
-            } ${isError ? "border-red-500 text-red-500" : ""}`}
+            className={`w-12 h-14 mx-1 border-2 rounded-lg text-2xl text-center font-bold
+              ${!code[index] ? "border-gray-300" : ""}
+              ${
+                code[index] && !isError ? "border-green-500 text-green-500" : ""
+              }
+              ${code[index] && isError ? "border-red-500 text-red-500" : ""}`}
             maxLength={1}
             keyboardType="number-pad"
             value={code[index]}
