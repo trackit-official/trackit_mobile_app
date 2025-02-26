@@ -20,7 +20,7 @@ const VerifyUserInfo = () => {
       setIsLoading(true);
       // Add verification logic here
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call
-      router.push("/(tabs)");
+      router.push("/(auth)/selectaccounts");
     } catch (error) {
       console.error(error);
     } finally {
@@ -74,7 +74,7 @@ const VerifyUserInfo = () => {
             handleChangeText={() => {}}
             otherStyles="mb-6"
             editable={false}
-          />    
+          />
         </View>
 
         <View className="mt-auto px-6 py-4">

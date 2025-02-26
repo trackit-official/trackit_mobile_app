@@ -231,6 +231,33 @@ const AuthLayout = () => {
             ),
           }}
         />
+        <Stack.Screen
+          name="selectaccounts"
+          options={{
+            headerTitleAlign: "center",
+            title: "",
+            headerShadowVisible: false,
+            //   headerShown: false,
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => router.back()} // Navigate back using router
+                style={{
+                  marginLeft: 10,
+                  borderWidth: 1,
+                  borderColor: "black",
+                  borderRadius: 10,
+                  padding: 5,
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="arrow-left" // Use the back arrow icon
+                  size={20}
+                  color="black"
+                />
+              </TouchableOpacity>
+            ),
+          }}
+        />
       </Stack>
     </View>
   );
