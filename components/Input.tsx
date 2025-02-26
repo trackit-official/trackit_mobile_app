@@ -25,7 +25,7 @@ const FormField = ({
   handleChangeText: (text: string) => void;
   otherStyles?: string;
   keyboardType?: KeyboardType;
-  error?: string;
+  error?: string | React.ReactElement;
   editable?: boolean;
 }) => {
   const [showPassword, setshowPassword] = useState(false);

@@ -4,7 +4,7 @@ import FormField from "@/components/Input";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-
+import AntDesign from "@expo/vector-icons/AntDesign";
 interface LoginPasswordData {
   password: string;
 }
@@ -56,10 +56,19 @@ const LoginPassword = () => {
             handleChangeText={handlePasswordChange}
             otherStyles="mb-6"
             keyboardType="default"
-            error={isError ? "Incorrect password" : ""}
+            error={
+              isError ? (
+                <View className="flex-row items-center   space-x-1">
+                  <AntDesign name="warning" size={20} color="#EF4444" />
+                  <Text className="ml-2 text-red-500">Incorrect password</Text>
+                </View>
+              ) : (
+                ""
+              )
+            }
           />
 
-          {isError && (
+          {/* {isError && (
             <View className="flex-row items-center space-x-2 mb-4">
               <MaterialCommunityIcons
                 name="alert-circle"
@@ -70,16 +79,16 @@ const LoginPassword = () => {
                 Incorrect password. Please try again
               </Text>
             </View>
-          )}
+          )} */}
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => router.push("/(auth)/resetpassword")}
-            className="mb-8"
+            className="mt-20 text-left"
           >
             <Text className="text-primary-600 font-pmedium text-base">
               Forgot Password?
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View className="mt-auto px-6 py-4">

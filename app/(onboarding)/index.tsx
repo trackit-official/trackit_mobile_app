@@ -51,7 +51,7 @@ const OnboardingScreen = () => {
   });
 
   return (
-    <SafeAreaView className="flex-1 ">
+    <SafeAreaView className="flex-1 bg-white ">
       <View className="h-full">
         <StatusBar barStyle="dark-content" />
 
